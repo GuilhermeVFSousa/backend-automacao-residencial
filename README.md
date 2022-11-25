@@ -27,6 +27,8 @@ Versão Java: 8
 - Lombok
 - Swagger 3
 
+### Criar DATABASE AUT_RES e em seguida executar o script "Criar Bando de Dados"
+
 ### Variáveis de ambiente necessárias
 
 ```java
