@@ -92,10 +92,29 @@ public class LuminariaResource {
 		}).orElseGet(() -> new ResponseEntity<>("Projeto não encontrado na base de dados.", HttpStatus.BAD_REQUEST));
 	}
 	
-	@PutMapping("{id}/atualiza-status")
-	public ResponseEntity<?> atualizarEstado (@PathVariable("id") Long id, @RequestBody AtualizaEstadoDTO dto) {
+	@PutMapping("{id}/atualiza-status-on")
+	public ResponseEntity<?> atualizarEstadoOn (@PathVariable("id") Long id) {
 		return service.obterPorId(id).map(entity -> {
-			EstadoLuminaria estadoSelecionado = EstadoLuminaria.valueOf(dto.getEstado());
+			EstadoLuminaria estadoSelecionado = EstadoLuminaria.LIGADO;
+			
+			if(estadoSelecionado == null) {
+				return ResponseEntity.badRequest().body("Não foi possível atualizar o estado da luminária, envie um estado válido");
+			}
+			try {
+				entity.setEstado(estadoSelecionado);
+				service.atualizar(entity);
+				return ResponseEntity.ok(entity);
+			}
+			catch (RegraNegocioException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+		}).orElseGet( () -> new ResponseEntity<>("Luminária não encontrada na base de Dados.", HttpStatus.BAD_REQUEST));
+	}
+	
+	@PutMapping("{id}/atualiza-status-off")
+	public ResponseEntity<?> atualizarEstadoOff (@PathVariable("id") Long id) {
+		return service.obterPorId(id).map(entity -> {
+			EstadoLuminaria estadoSelecionado = EstadoLuminaria.DESLIGADO;
 			
 			if(estadoSelecionado == null) {
 				return ResponseEntity.badRequest().body("Não foi possível atualizar o estado da luminária, envie um estado válido");
