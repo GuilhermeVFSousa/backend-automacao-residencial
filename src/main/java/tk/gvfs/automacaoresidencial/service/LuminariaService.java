@@ -14,6 +14,8 @@ public interface LuminariaService {
 	
 	Luminaria atualizar(Luminaria luminaria);
 	
+	Luminaria atualizar_(Luminaria luminaria);
+	
 	void deletar(Luminaria luminaria);
 	
 	List<Luminaria> buscar(Luminaria luminariaFiltro);
@@ -21,8 +23,11 @@ public interface LuminariaService {
 	void atualizarEstado(Luminaria luminaria, EstadoLuminaria estado);
 	
 	void validar(Luminaria luminaria);
+
+	void validar_(Luminaria luminaria);
 	
 	Optional<Luminaria> obterPorId(Long id);
 	
+	Luminaria findById(Long id);
 
 }

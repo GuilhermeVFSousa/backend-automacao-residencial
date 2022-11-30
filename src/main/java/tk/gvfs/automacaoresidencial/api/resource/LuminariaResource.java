@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import tk.gvfs.automacaoresidencial.api.dto.AtualizaEstadoDTO;
 import tk.gvfs.automacaoresidencial.api.dto.LuminariaDTO;
 import tk.gvfs.automacaoresidencial.exception.RegraNegocioException;
 import tk.gvfs.automacaoresidencial.model.entity.Ambiente;
@@ -50,10 +49,16 @@ public class LuminariaResource {
 	
 	@GetMapping("/todos")
 	public ResponseEntity<List<Luminaria>> buscarTodos() {
+		
 		List<Luminaria> list = service.buscarTodos();
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<Luminaria> obterLuminarias(@PathVariable("id") Long id) {
+		Luminaria obj = service.findById(id);
+		return ResponseEntity.ok().body(obj);
+	}
 	
 	
 	@PostMapping
@@ -68,13 +73,29 @@ public class LuminariaResource {
 		}
 	}
 	
-	@PutMapping
+	@PutMapping("{id}")
 	public ResponseEntity<?> atualizar(@PathVariable("id") Long id, @RequestBody LuminariaDTO dto) {
 		return service.obterPorId(id).map(entity -> {
 			try {
 				Luminaria luminaria = converter(dto);
 				luminaria.setId(entity.getId());
 				service.atualizar(luminaria);
+				return ResponseEntity.ok(luminaria);
+			}
+			catch (RegraNegocioException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+		}).orElseGet(() -> new ResponseEntity<>("Luminária não encontrada na base de dados.", HttpStatus.BAD_REQUEST));
+		
+	}
+	
+	@PutMapping("/lum/{id}")
+	public ResponseEntity<?> atualizarPutLum(@PathVariable("id") Long id, @RequestBody LuminariaDTO dto) {
+		return service.obterPorId(id).map(entity -> {
+			try {
+				Luminaria luminaria = converter(dto);
+				luminaria.setId(entity.getId());
+				service.atualizar_(luminaria);
 				return ResponseEntity.ok(luminaria);
 			}
 			catch (RegraNegocioException e) {

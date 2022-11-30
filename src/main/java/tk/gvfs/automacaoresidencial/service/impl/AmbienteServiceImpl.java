@@ -4,10 +4,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import tk.gvfs.automacaoresidencial.exception.DatabaseException;
 import tk.gvfs.automacaoresidencial.exception.RegraNegocioException;
 import tk.gvfs.automacaoresidencial.exception.ResourceNotFoundException;
 import tk.gvfs.automacaoresidencial.model.entity.Ambiente;
@@ -41,9 +45,19 @@ public class AmbienteServiceImpl implements AmbienteService {
 	@Override
 	@Transactional
 	public void deletar(Ambiente ambiente) {
+		try {
 		Objects.requireNonNull(ambiente.getId());
 		repository.delete(ambiente);
-		
+		}
+		catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(ambiente.getId());
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+		catch (ConstraintViolationException e) {
+			throw new DatabaseException(e.getMessage());
+		}
 	}
 
 	@Override

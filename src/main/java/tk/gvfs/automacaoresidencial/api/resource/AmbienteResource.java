@@ -30,7 +30,7 @@ public class AmbienteResource {
 	private final AmbienteService service;
 	
 	private final ProjetoService projetoService;
-	
+		
 	@GetMapping
 	public ResponseEntity<List<Ambiente>> buscarTodos() {
 		List<Ambiente> list = service.buscarTodos();
@@ -60,6 +60,7 @@ public class AmbienteResource {
 		List<Ambiente> ambientes = service.buscar(ambienteFiltro);
 		return ResponseEntity.ok(ambientes);
 	}
+	
 	
 	@PostMapping
 	public ResponseEntity<?> salvar(@RequestBody AmbienteDTO dto) {

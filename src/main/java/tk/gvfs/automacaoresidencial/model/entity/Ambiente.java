@@ -14,8 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
@@ -37,7 +35,6 @@ public class Ambiente {
 	@JoinColumn(name = "ID_PROJETO")
 	private Projeto projeto;
 	
-	@JsonManagedReference
 	@OneToMany(mappedBy = "ambiente")
 	private final List<Luminaria> luminarias = new ArrayList<>();
 
