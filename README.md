@@ -4,14 +4,6 @@
 Swagger: http://ec2-15-229-28-154.sa-east-1.compute.amazonaws.com:8080/swagger-ui/index.html
 
 
-
-Versão Java: 8
-- API Rest cim Java e Spring Boot
-- Banco de Dados em memória (H2)
-- Integração com notificação via SMS
-- Implantação em nuvem com integração contínua(CI) e entrega contínua(CD), utilizando o Heroku
-
-
 ### Versão Java
 - Java 8
 
