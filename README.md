@@ -1,6 +1,11 @@
 
 ## Automação Residencial API Rest
 
+
+
+#### Versão online: http://15.229.28.154:3000/
+
+
 Swagger: http://ec2-15-229-28-154.sa-east-1.compute.amazonaws.com:8080/swagger-ui/index.html
 
 
