@@ -89,21 +89,6 @@ public class LuminariaResource {
 		
 	}
 	
-	@PutMapping("/lum/{id}")
-	public ResponseEntity<?> atualizarPutLum(@PathVariable("id") Long id, @RequestBody LuminariaDTO dto) {
-		return service.obterPorId(id).map(entity -> {
-			try {
-				Luminaria luminaria = converter(dto);
-				luminaria.setId(entity.getId());
-				service.atualizar_(luminaria);
-				return ResponseEntity.ok(luminaria);
-			}
-			catch (RegraNegocioException e) {
-				return ResponseEntity.badRequest().body(e.getMessage());
-			}
-		}).orElseGet(() -> new ResponseEntity<>("Luminária não encontrada na base de dados.", HttpStatus.BAD_REQUEST));
-		
-	}
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
@@ -150,17 +135,6 @@ public class LuminariaResource {
 			}
 		}).orElseGet( () -> new ResponseEntity<>("Luminária não encontrada na base de Dados.", HttpStatus.BAD_REQUEST));
 	}
-	
-	/*
-	private LuminariaDTO converterDTO(Luminaria luminaria) {
-		return LuminariaDTO.builder()
-				.id(luminaria.getId())
-				.nome(luminaria.getNome())
-				.ambiente(luminaria.getAmbiente().getId())
-				.estado(luminaria.getEstado().name())
-				.build();
-	}
-	*/
 	
 	private Luminaria converter(LuminariaDTO dto) {
 		Luminaria luminaria = new Luminaria();
